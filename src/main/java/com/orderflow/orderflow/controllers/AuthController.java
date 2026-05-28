@@ -5,9 +5,11 @@ import com.orderflow.orderflow.dtos.LoginRequest;
 import com.orderflow.orderflow.dtos.RegisterRequest;
 import com.orderflow.orderflow.entities.User;
 import com.orderflow.orderflow.repositories.UserRepository;
+import com.orderflow.orderflow.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
@@ -34,18 +37,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public AuthResponse login(@RequestBody LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() ->
+                        new RuntimeException("Usuário não encontrado"));
 
         boolean passwordMatches =
-                passwordEncoder.matches(request.getPassword(), user.getPassword());
+                passwordEncoder.matches(
+                        request.getPassword(),
+                        user.getPassword()
+                );
 
         if (!passwordMatches) {
             throw new RuntimeException("Senha inválida");
         }
 
-        return "Login realizado com sucesso!";
+        String token = jwtService.generateToken(user.getEmail());
+
+        return new AuthResponse(token);
     }
 }
