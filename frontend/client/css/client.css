@@ -392,3 +392,34 @@ body {
     font-weight: bold;
     text-decoration: none;
 }
+.header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.orders-button,
+.cart-button {
+    text-decoration: none;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.orders-button {
+    background: #334155;
+}
+
+.orders-button:hover {
+    background: #475569;
+}
+
+.cart-button {
+    background: #ff4b2b;
+}
+
+.cart-button:hover {
+    background: #e63e22;
+}

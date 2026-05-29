@@ -9,18 +9,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     private String customerName;
@@ -33,6 +30,10 @@ public class Order {
     private OrderStatus status;
 
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(
             mappedBy = "order",

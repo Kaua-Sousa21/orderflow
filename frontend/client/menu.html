@@ -7,16 +7,25 @@
 </head>
 <body>
 
+
 <header class="client-header">
     <div>
         <h1>OrderFlow</h1>
         <p>Escolha seus produtos favoritos</p>
     </div>
 
-    <a href="cart.html" class="cart-button">
-        🛒 Carrinho
-        <span id="cartCount">0</span>
-    </a>
+    <div class="header-actions">
+
+        <a href="my-orders.html" class="orders-button">
+            📦 Acompanhar Pedidos
+        </a>
+
+        <a href="cart.html" class="cart-button">
+            🛒 Carrinho
+            <span id="cartCount">0</span>
+        </a>
+
+    </div>
 </header>
 
 <main class="client-container">
@@ -27,6 +36,7 @@
 
     <section class="menu-grid" id="menuProducts"></section>
 </main>
+
 
 <script src="js/client-api.js"></script>
 <script src="js/menu.js"></script>

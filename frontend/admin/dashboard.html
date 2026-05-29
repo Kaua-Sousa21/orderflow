@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>OrderFlow - Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dashboard-body">
 
@@ -13,6 +14,7 @@
     <a class="active" href="dashboard.html">Dashboard</a>
     <a href="products.html">Produtos</a>
     <a href="orders.html">Pedidos</a>
+    <a href="history.html">Histórico</a>
 
     <button onclick="logout()">Sair</button>
 </div>
@@ -24,6 +26,14 @@
             <p>Resumo geral do seu sistema de pedidos</p>
         </div>
     </header>
+    <section class="panel chart-panel">
+        <div class="table-header">
+            <h2>Pedidos por Status</h2>
+            <p>Distribuição atual dos pedidos no sistema</p>
+        </div>
+
+        <canvas id="ordersStatusChart"></canvas>
+    </section>
 
     <section class="cards">
 

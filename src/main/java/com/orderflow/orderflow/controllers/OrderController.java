@@ -5,10 +5,13 @@ import com.orderflow.orderflow.dtos.OrderItemRequest;
 import com.orderflow.orderflow.entities.Order;
 import com.orderflow.orderflow.entities.OrderItem;
 import com.orderflow.orderflow.entities.Product;
+import com.orderflow.orderflow.entities.User;
 import com.orderflow.orderflow.enums.OrderStatus;
 import com.orderflow.orderflow.repositories.OrderRepository;
 import com.orderflow.orderflow.repositories.ProductRepository;
+import com.orderflow.orderflow.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -18,24 +21,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
-
 public class OrderController {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @PostMapping
     public Order createOrder(
-            @RequestBody CreateOrderRequest request
+            @RequestBody CreateOrderRequest request,
+            Authentication authentication
     ) {
 
         Order order = new Order();
 
         order.setCustomerName(request.getCustomerName());
-
+        order.setAddress(request.getAddress());
         order.setStatus(OrderStatus.PENDING);
-
         order.setCreatedAt(LocalDateTime.now());
+
+        if (authentication != null) {
+            User user = userRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() ->
+                            new RuntimeException("Usuário não encontrado")
+                    );
+
+            order.setUser(user);
+        }
 
         List<OrderItem> orderItems = new ArrayList<>();
 
@@ -52,25 +64,38 @@ public class OrderController {
             OrderItem item = new OrderItem();
 
             item.setProduct(product);
-
             item.setQuantity(itemRequest.getQuantity());
-
             item.setPrice(product.getPrice());
-
             item.setOrder(order);
 
             orderItems.add(item);
 
-            total += product.getPrice()
-                    * itemRequest.getQuantity();
+            total += product.getPrice() * itemRequest.getQuantity();
         }
 
         order.setItems(orderItems);
-
         order.setTotal(total);
 
         return orderRepository.save(order);
     }
+
+    @GetMapping("/my")
+    public List<Order> getMyOrders(
+            Authentication authentication
+    ) {
+
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() ->
+                        new RuntimeException("Usuário não encontrado")
+                );
+
+        return orderRepository.findAll()
+                .stream()
+                .filter(order -> order.getUser() != null)
+                .filter(order -> order.getUser().getId().equals(user.getId()))
+                .toList();
+    }
+
     @GetMapping("/{id}")
     public Order getOrderById(
             @PathVariable Long id
@@ -81,6 +106,7 @@ public class OrderController {
                         new RuntimeException("Pedido não encontrado")
                 );
     }
+
     @PutMapping("/{id}/status")
     public Order updateStatus(
             @PathVariable Long id,
@@ -96,6 +122,7 @@ public class OrderController {
 
         return orderRepository.save(order);
     }
+
     @GetMapping("/{id}/public")
     public Order getPublicOrderById(
             @PathVariable Long id
@@ -105,8 +132,6 @@ public class OrderController {
                         new RuntimeException("Pedido não encontrado")
                 );
     }
-
-
 
     @GetMapping
     public List<Order> listOrders() {

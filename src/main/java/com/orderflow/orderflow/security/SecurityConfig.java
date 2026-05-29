@@ -37,22 +37,32 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-
                 .cors(cors -> {})
-
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
 
+                        // Público
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/products").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/orders").permitAll()
+                        // Cliente
+                        .requestMatchers(HttpMethod.POST, "/orders").hasRole("CLIENT")
+                        .requestMatchers(HttpMethod.GET, "/orders/my").hasRole("CLIENT")
 
-                        .requestMatchers("/orders/**").permitAll()
+                        // Admin
+                        .requestMatchers("/dashboard/**").hasRole("ADMIN")
 
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/orders/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/orders/*/status").hasRole("ADMIN")
+
+                        // Qualquer outra rota precisa estar logada
                         .anyRequest().authenticated()
                 );
 
