@@ -37,4 +37,47 @@ public class ProductController {
 
         return productRepository.findAll();
     }
+    @GetMapping("/{id}")
+    public Product getProductById(
+            @PathVariable Long id
+    ) {
+
+        return productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Produto não encontrado")
+                );
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductRequestDTO request
+    ) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Produto não encontrado")
+                );
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setImageUrl(request.getImageUrl());
+        product.setAvailable(request.getAvailable());
+
+        return productRepository.save(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(
+            @PathVariable Long id
+    ) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Produto não encontrado")
+                );
+
+        productRepository.delete(product);
+    }
 }

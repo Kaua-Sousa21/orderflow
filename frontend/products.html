@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderFlow - Produtos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-body">
+
+<div class="sidebar">
+    <h2>OrderFlow</h2>
+
+    <a href="dashboard.html">Dashboard</a>
+    <a class="active" href="products.html">Produtos</a>
+    <a href="orders.html">Pedidos</a>
+
+    <button onclick="logout()">Sair</button>
+</div>
+
+<main class="main-content">
+    <header class="topbar products-topbar">
+        <div>
+            <h1>Produtos</h1>
+            <p>Gerencie o cardápio do seu sistema</p>
+        </div>
+
+        <button class="primary-btn" onclick="openProductModal()">
+            + Novo Produto
+        </button>
+    </header>
+
+    <section class="panel">
+        <div class="table-header">
+            <h2>Lista de produtos</h2>
+            <p>Produtos cadastrados no sistema</p>
+        </div>
+
+        <div class="products-grid" id="productsList"></div>
+    </section>
+</main>
+
+<div class="modal-overlay" id="productModal">
+    <div class="modal">
+        <h2 id="modalTitle">Novo Produto</h2>
+
+        <form onsubmit="saveProduct(event)">
+            <input type="hidden" id="productId">
+
+            <label>Nome</label>
+            <input type="text" id="productName" required>
+
+            <label>Descrição</label>
+            <input type="text" id="productDescription" required>
+
+            <label>Preço</label>
+            <input type="number" step="0.01" id="productPrice" required>
+
+            <label>URL da imagem</label>
+            <input type="text" id="productImageUrl">
+
+            <label class="checkbox-label">
+                <input type="checkbox" id="productAvailable" checked>
+                Produto disponível
+            </label>
+
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeProductModal()">Cancelar</button>
+                <button type="submit" class="primary-btn">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/products.js"></script>
+</body>
+</html>
