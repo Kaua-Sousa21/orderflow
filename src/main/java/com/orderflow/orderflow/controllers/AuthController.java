@@ -7,14 +7,12 @@ import com.orderflow.orderflow.entities.User;
 import com.orderflow.orderflow.repositories.UserRepository;
 import com.orderflow.orderflow.security.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -55,6 +53,6 @@ public class AuthController {
 
         String token = jwtService.generateToken(user.getEmail());
 
-        return new AuthResponse(token);
+        return new AuthResponse(token, user.getRole());
     }
 }

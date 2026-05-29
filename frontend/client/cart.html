@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderFlow - Carrinho</title>
+    <link rel="stylesheet" href="css/client.css">
+</head>
+<body>
+
+<header class="client-header">
+    <div>
+        <h1>OrderFlow</h1>
+        <p>Finalizar pedido</p>
+    </div>
+
+    <a href="menu.html" class="cart-button">
+        ← Voltar ao Cardápio
+    </a>
+</header>
+
+<main class="client-container">
+
+    <section class="panel-client">
+        <h2>Seus Dados</h2>
+
+        <div class="form-grid">
+            <input
+                    type="text"
+                    id="customerName"
+                    placeholder="Seu nome"
+            >
+
+            <input
+                    type="text"
+                    id="address"
+                    placeholder="Seu endereço"
+            >
+        </div>
+    </section>
+
+    <section class="panel-client">
+        <h2>Itens do Carrinho</h2>
+
+        <div id="cartItems"></div>
+    </section>
+
+    <section class="panel-client checkout-section">
+        <div>
+            <span>Total</span>
+            <h2 id="cartTotal">R$ 0,00</h2>
+        </div>
+
+        <button onclick="finishOrder()">
+            Finalizar Pedido
+        </button>
+    </section>
+
+</main>
+
+<script src="js/client-api.js"></script>
+<script src="js/cart.js"></script>
+
+</body>
+</html>

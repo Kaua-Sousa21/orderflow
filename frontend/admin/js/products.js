@@ -26,6 +26,10 @@ async function loadProducts() {
         const card = document.createElement("div");
         card.className = "product-card";
 
+        const actionButton = product.available
+            ? `<button class="danger-btn" onclick="disableProduct(${product.id})">Desativar</button>`
+            : `<button class="success-btn-small" onclick="enableProduct(${product.id})">Ativar</button>`;
+
         card.innerHTML = `
             <img src="${product.imageUrl || 'https://via.placeholder.com/300x180'}" alt="${product.name}">
 
@@ -48,7 +52,7 @@ async function loadProducts() {
 
                 <div class="product-actions">
                     <button onclick='editProduct(${JSON.stringify(product)})'>Editar</button>
-                    <button class="danger-btn" onclick="deleteProduct(${product.id})">Excluir</button>
+                    ${actionButton}
                 </div>
             </div>
         `;
@@ -81,7 +85,7 @@ function editProduct(product) {
     document.getElementById("productName").value = product.name;
     document.getElementById("productDescription").value = product.description;
     document.getElementById("productPrice").value = product.price;
-    document.getElementById("productImageUrl").value = product.imageUrl;
+    document.getElementById("productImageUrl").value = product.imageUrl || "";
     document.getElementById("productAvailable").checked = product.available;
 }
 
@@ -120,10 +124,10 @@ async function saveProduct(event) {
     loadProducts();
 }
 
-async function deleteProduct(id) {
-    const confirmDelete = confirm("Tem certeza que deseja excluir este produto?");
+async function disableProduct(id) {
+    const confirmDisable = confirm("Deseja desativar este produto? Ele não aparecerá mais no cardápio do cliente.");
 
-    if (!confirmDelete) return;
+    if (!confirmDisable) return;
 
     const token = getToken();
 
@@ -135,7 +139,29 @@ async function deleteProduct(id) {
     });
 
     if (!response.ok) {
-        alert("Erro ao excluir produto.");
+        alert("Erro ao desativar produto.");
+        return;
+    }
+
+    loadProducts();
+}
+
+async function enableProduct(id) {
+    const confirmEnable = confirm("Deseja ativar este produto novamente?");
+
+    if (!confirmEnable) return;
+
+    const token = getToken();
+
+    const response = await fetch(`${API_URL}/products/${id}/enable`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok) {
+        alert("Erro ao ativar produto.");
         return;
     }
 

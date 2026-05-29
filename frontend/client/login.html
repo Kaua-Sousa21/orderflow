@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderFlow - Login Cliente</title>
+    <link rel="stylesheet" href="css/client.css">
+</head>
+<body class="auth-body">
+
+<div class="auth-card">
+    <h1>OrderFlow</h1>
+    <p>Entre para fazer seus pedidos</p>
+
+    <form onsubmit="clientLogin(event)">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Senha" required>
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p class="auth-link">
+        Não tem conta?
+        <a href="register.html">Cadastrar</a>
+    </p>
+</div>
+
+<script src="js/client-api.js"></script>
+<script src="js/client-auth.js"></script>
+</body>
+</html>

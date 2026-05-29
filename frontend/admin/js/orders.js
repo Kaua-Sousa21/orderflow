@@ -18,21 +18,26 @@ async function loadOrders() {
     }
 
     const orders = await response.json();
+
+    const activeOrders = orders.filter(order =>
+        order.status !== "DELIVERED"
+    );
+
     const list = document.getElementById("ordersList");
 
     list.innerHTML = "";
 
-    if (orders.length === 0) {
+    if (activeOrders.length === 0) {
         list.innerHTML = `
             <div class="panel">
-                <h2>Nenhum pedido encontrado</h2>
-                <p>Quando novos pedidos forem criados, eles aparecerão aqui.</p>
+                <h2>Nenhum pedido ativo</h2>
+                <p>Pedidos entregues são removidos automaticamente desta tela.</p>
             </div>
         `;
         return;
     }
 
-    orders.forEach(order => {
+    activeOrders.forEach(order => {
         const card = document.createElement("div");
         card.className = "order-card";
 

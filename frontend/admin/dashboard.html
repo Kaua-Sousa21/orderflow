@@ -26,28 +26,40 @@
     </header>
 
     <section class="cards">
+
         <div class="card">
-            <span>Total de pedidos</span>
+            <span>📦 Total de Pedidos</span>
             <h2 id="totalOrders">0</h2>
         </div>
 
         <div class="card">
-            <span>Pedidos pendentes</span>
+            <span>🔥 Pedidos Ativos</span>
+            <h2 id="activeOrders">0</h2>
+        </div>
+
+        <div class="card">
+            <span>🟡 Pendentes</span>
             <h2 id="pendingOrders">0</h2>
         </div>
 
         <div class="card">
-            <span>Receita total</span>
+            <span>🔵 Preparando</span>
+            <h2 id="preparingOrders">0</h2>
+        </div>
+
+        <div class="card">
+            <span>🟢 Prontos</span>
+            <h2 id="readyOrders">0</h2>
+        </div>
+
+        <div class="card">
+            <span>💰 Faturamento</span>
             <h2 id="totalRevenue">R$ 0,00</h2>
         </div>
-    </section>
 
-    <section class="panel">
-        <h2>Bem-vindo ao OrderFlow</h2>
-        <p>Gerencie seus produtos, acompanhe pedidos e visualize o desempenho do sistema em tempo real.</p>
     </section>
 </main>
-
+<script src="js/admin-guard.js"></script>
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/dashboard.js"></script>

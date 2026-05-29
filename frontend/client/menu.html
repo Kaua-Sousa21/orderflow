@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>OrderFlow - Cardápio</title>
+    <link rel="stylesheet" href="css/client.css">
+</head>
+<body>
+
+<header class="client-header">
+    <div>
+        <h1>OrderFlow</h1>
+        <p>Escolha seus produtos favoritos</p>
+    </div>
+
+    <a href="cart.html" class="cart-button">
+        🛒 Carrinho
+        <span id="cartCount">0</span>
+    </a>
+</header>
+
+<main class="client-container">
+    <section class="menu-title">
+        <h2>Cardápio</h2>
+        <p>Produtos disponíveis para pedido</p>
+    </section>
+
+    <section class="menu-grid" id="menuProducts"></section>
+</main>
+
+<script src="js/client-api.js"></script>
+<script src="js/menu.js"></script>
+</body>
+</html>

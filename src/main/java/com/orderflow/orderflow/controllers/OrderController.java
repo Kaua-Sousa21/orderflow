@@ -96,6 +96,15 @@ public class OrderController {
 
         return orderRepository.save(order);
     }
+    @GetMapping("/{id}/public")
+    public Order getPublicOrderById(
+            @PathVariable Long id
+    ) {
+        return orderRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Pedido não encontrado")
+                );
+    }
 
 
 

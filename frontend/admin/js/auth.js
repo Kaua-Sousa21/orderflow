@@ -1,4 +1,3 @@
-
 async function login(event) {
     event.preventDefault();
 
@@ -21,7 +20,21 @@ async function login(event) {
     const data = await response.json();
 
     localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.role);
+
+    if (data.role !== "ADMIN") {
+        alert("Acesso permitido apenas para administradores.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        return;
+    }
 
     alert("Login realizado com sucesso!");
     window.location.href = "dashboard.html";
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
 }

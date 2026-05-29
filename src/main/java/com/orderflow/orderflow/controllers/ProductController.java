@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-
 public class ProductController {
 
     private final ProductRepository productRepository;
@@ -34,9 +33,9 @@ public class ProductController {
 
     @GetMapping
     public List<Product> listProducts() {
-
         return productRepository.findAll();
     }
+
     @GetMapping("/{id}")
     public Product getProductById(
             @PathVariable Long id
@@ -69,7 +68,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(
+    public Product disableProduct(
             @PathVariable Long id
     ) {
 
@@ -78,6 +77,22 @@ public class ProductController {
                         new RuntimeException("Produto não encontrado")
                 );
 
-        productRepository.delete(product);
+        product.setAvailable(false);
+
+        return productRepository.save(product);
+    }
+    @PutMapping("/{id}/enable")
+    public Product enableProduct(
+            @PathVariable Long id
+    ) {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Produto não encontrado")
+                );
+
+        product.setAvailable(true);
+
+        return productRepository.save(product);
     }
 }
