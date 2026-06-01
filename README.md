@@ -190,6 +190,8 @@ Tecnologias:
 
 GitHub:
 https://github.com/Kaua-Sousa21
+Instagram:
+@kzinkkz
 
 ---
 
