@@ -130,7 +130,7 @@ Acesso às rotas protegidas
 ### Clone o projeto
 
 ```bash
-git clone https://github.com/seu-usuario/orderflow.git
+git clone https://github.com/Kaua-Sousa21/orderflow.git
 ```
 
 ### Entre na pasta
