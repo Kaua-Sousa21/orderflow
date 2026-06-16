@@ -109,22 +109,6 @@ Acesso às rotas protegidas
 
 ---
 
-## 📸 Screenshots
-
-### Dashboard
-
-<img src="docs/dashboard.png" width="800">
-
-### Cardápio
-
-<img src="docs/menu.png" width="800">
-
-### Pedidos
-
-<img src="docs/orders.png" width="800">
-
----
-
 ## 🚀 Executando Localmente
 
 ### Clone o projeto
